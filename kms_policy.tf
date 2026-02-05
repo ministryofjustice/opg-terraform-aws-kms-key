@@ -23,9 +23,11 @@ data "aws_iam_policy_document" "kms_key" {
     ]
     actions = [
       "kms:Encrypt",
+      "kms:CreateGrant",
       "kms:ReEncrypt*",
       "kms:GenerateDataKey*",
       "kms:DescribeKey",
+
     ]
 
     principals {
@@ -89,6 +91,32 @@ data "aws_iam_policy_document" "kms_key" {
       identifiers = [
         "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
       ]
+    }
+  }
+  statement {
+    sid       = "Allow attachment of persistent resources"
+    effect    = "Allow"
+    resources = ["*"]
+
+    actions = [
+      "kms:CreateGrant",
+      "kms:ListGrants",
+      "kms:RevokeGrant",
+    ]
+
+    principals {
+      type = "AWS"
+
+      # add MLPAB roles here
+      identifiers = [
+        "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/*",
+      ]
+    }
+
+    condition {
+      test     = "Bool"
+      variable = "kms:GrantIsForAWSResource"
+      values   = ["true"]
     }
   }
 
