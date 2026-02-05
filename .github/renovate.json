@@ -1,0 +1,41 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    "schedule:monthly"
+  ],
+  "branchPrefix": "renovate-",
+  "commitMessageAction": "Renovate",
+  "labels": [
+    "Renovate"
+  ],
+  "packageRules": [
+    {
+      "groupName": "Minor and Patch Updates",
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "minimumReleaseAge": "5 days",
+      "addLabels": [
+        "minor-and-patch"
+      ],
+      "matchPackageNames": [
+        "*"
+      ]
+    },
+    {
+      "groupName": "Major Updates",
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "minimumReleaseAge": "5 days",
+      "addLabels": [
+        "major"
+      ],
+      "matchPackageNames": [
+        "*"
+      ]
+    }
+  ]
+}

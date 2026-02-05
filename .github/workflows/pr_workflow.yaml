@@ -1,0 +1,72 @@
+name: PR Workflow
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  security-events: none
+  pull-requests: read
+  actions: none
+  checks: none
+  deployments: none
+  issues: none
+  packages: none
+  repository-projects: none
+  statuses: none
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  TFLINT_VERSION: 0.50.1
+
+jobs:
+  bump_version:
+    name: Bump Version
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Generate semver tag and release"
+        id: semver_tag
+        uses: ministryofjustice/opg-github-actions/.github/actions/semver-tag@v3.1.7
+        #TODO check version
+        with:
+          prerelease: ${{ github.ref != 'refs/heads/main' }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+    outputs:
+      version_tag: ${{steps.bump_version.outputs.tag}}
+  terraform_validation:
+    name: "Terraform Validation"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - id: tf_version
+        name: "Get terraform version"
+        uses: "ministryofjustice/opg-github-actions/.github/actions/terraform-version@v3.1.7"
+        with:
+          terraform_directory: "./"
+      - name: "Setup terraform [version: ${{ steps.tf_version.outputs.version }}]"
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ steps.tf_version.outputs.version }}
+      - uses: terraform-linters/setup-tflint@v4
+        name: Setup TFLint
+        with:
+          tflint_version: v${{ env.TFLINT_VERSION }}
+      - name: Terraform fmt check
+        run: |
+          terraform fmt -diff -check
+      - name: Terraform Init and Validate
+        run: |
+          terraform init -input=false
+          terraform validate
+      - name: Lint Terraform
+        id: tf_lint
+        run: tflint --recursive
+        working-directory: .
