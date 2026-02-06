@@ -109,7 +109,7 @@ data "aws_iam_policy_document" "kms_key" {
 
       # add MLPAB roles here
       identifiers = [
-        "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/*",
+        "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/",
       ]
     }
 
