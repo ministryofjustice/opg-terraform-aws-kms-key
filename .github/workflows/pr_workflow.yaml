@@ -33,9 +33,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout code"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
       - name: "Generate semver tag and release"
-        id: semver_tag
+        id: semver
         uses: ministryofjustice/opg-github-actions/actions/semver@v4.3.10
         with:
           prerelease: ${{ github.ref != 'refs/heads/main' }}
@@ -46,11 +48,13 @@ jobs:
     name: "Terraform Validation"
     runs-on: ubuntu-latest
     steps:
-      - id: tf_version
+      - name: "Checkout code"
+        uses: actions/checkout@v6
+      - id: terraform_version
         name: "Get terraform version"
-        uses: ministryofjustice/opg-github-actions/actions/terraform-version@v4.3.10
+        uses: "ministryofjustice/opg-github-actions/actions/terraform-version@v4.3.10"
         with:
-          terraform_directory: "./"
+          terraform_directory: "."
       - name: "Setup terraform [version: ${{ steps.tf_version.outputs.version }}]"
         uses: hashicorp/setup-terraform@v3
         with:
