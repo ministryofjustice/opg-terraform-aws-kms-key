@@ -32,6 +32,8 @@ jobs:
     name: Bump Version
     runs-on: ubuntu-latest
     steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v3
       - name: "Generate semver tag and release"
         id: semver_tag
         uses: ministryofjustice/opg-github-actions/actions/semver@v4.3.10
@@ -44,7 +46,6 @@ jobs:
     name: "Terraform Validation"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
       - id: tf_version
         name: "Get terraform version"
         uses: ministryofjustice/opg-github-actions/actions/terraform-version@v4.3.10
