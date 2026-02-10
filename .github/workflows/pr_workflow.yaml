@@ -34,6 +34,8 @@ jobs:
     steps:
       - name: "Checkout code"
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: "Generate semver tag and release"
         id: semver
         uses: ministryofjustice/opg-github-actions/actions/semver@v4.3.10
@@ -50,7 +52,8 @@ jobs:
         name: "Get terraform version"
         uses: "ministryofjustice/opg-github-actions/actions/terraform-version@v4.3.10"
         with:
-          terraform_directory: "versions.tf"
+          terraform_versions_file: "versions.tf"
+          terraform_directory: "."
       - name: "Setup terraform [version: ${{ steps.tf_version.outputs.version }}]"
         uses: hashicorp/setup-terraform@v3
         with:
