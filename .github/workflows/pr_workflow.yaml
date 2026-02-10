@@ -50,7 +50,7 @@ jobs:
         name: "Get terraform version"
         uses: "ministryofjustice/opg-github-actions/actions/terraform-version@v4.3.10"
         with:
-          terraform_directory: "./"
+          terraform_directory: "versions.tf"
       - name: "Setup terraform [version: ${{ steps.tf_version.outputs.version }}]"
         uses: hashicorp/setup-terraform@v3
         with:
