@@ -32,6 +32,8 @@ jobs:
     name: Bump Version
     runs-on: ubuntu-latest
     steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v4
       - name: "Generate semver tag and release"
         id: semver
         uses: ministryofjustice/opg-github-actions/actions/semver@v4.3.10
