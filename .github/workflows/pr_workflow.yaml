@@ -32,12 +32,7 @@ jobs:
     name: Bump Version
     runs-on: ubuntu-latest
     steps:
-      - name: "Checkout"
-        uses: actions/checkout@v4
-        with:
-        fetch-depth: 0
-        fetch-tags: true
-      - name: "Create Semver tag"
+      - name: "Generate semver tag and release"
         id: semver
         uses: ministryofjustice/opg-github-actions/actions/semver@v4.3.10
         with:
@@ -49,9 +44,9 @@ jobs:
     name: "Terraform Validation"
     runs-on: ubuntu-latest
     steps:
-      - id: tf_version
+      - id: terraform_version
         name: "Get terraform version"
-        uses: ministryofjustice/opg-github-actions/actions/terraform-version@v4.3.10
+        uses: "ministryofjustice/opg-github-actions/actions/terraform-version@v4.3.10"
         with:
           terraform_directory: "./"
       - name: "Setup terraform [version: ${{ steps.tf_version.outputs.version }}]"
