@@ -1,6 +1,6 @@
 # opg-terraform-aws-kms-key
 Standard OPG AWS KMS key Module: Managed by opg-org-infra &amp; Terraform
-
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name                                                                      | Version   |
@@ -48,3 +48,5 @@ No modules.
 | ------------------------------------------------------------------- | ----------- |
 | <a name="output_eu_west_1"></a> [eu\_west\_1](#output\_eu\_west\_1) | n/a         |
 | <a name="output_eu_west_2"></a> [eu\_west\_2](#output\_eu\_west\_2) | n/a         |
+
+<!-- END_TF_DOCS -->
