@@ -34,7 +34,7 @@ jobs:
     steps:
       - name: "Generate semver tag and release"
         id: semver_tag
-        uses: ministryofjustice/opg-github-actions/.github/actions/semver@v4.3.10
+        uses: ministryofjustice/opg-github-actions/.github/actions/semver@v4.3.10"
         #TODO check version
         with:
           prerelease: ${{ github.ref != 'refs/heads/main' }}
