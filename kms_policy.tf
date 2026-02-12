@@ -23,9 +23,11 @@ data "aws_iam_policy_document" "kms_key" {
     ]
     actions = [
       "kms:Encrypt",
+      "kms:CreateGrant",
       "kms:ReEncrypt*",
       "kms:GenerateDataKey*",
       "kms:DescribeKey",
+
     ]
 
     principals {
@@ -40,6 +42,15 @@ data "aws_iam_policy_document" "kms_key" {
         variable = "kms:ViaService"
 
         values = var.usage_services
+      }
+    }
+    dynamic "condition" {
+      for_each = length(var.caller_accounts) > 0 ? [1] : []
+      content {
+        test     = "StringEquals"
+        variable = "kms:CallerAccount"
+
+        values = var.caller_accounts
       }
     }
   }
@@ -69,6 +80,15 @@ data "aws_iam_policy_document" "kms_key" {
         values = var.usage_services
       }
     }
+    dynamic "condition" {
+      for_each = length(var.caller_accounts) > 0 ? [1] : []
+      content {
+        test     = "StringEquals"
+        variable = "kms:CallerAccount"
+
+        values = var.caller_accounts
+      }
+    }
   }
 
   statement {
@@ -91,6 +111,37 @@ data "aws_iam_policy_document" "kms_key" {
       ]
     }
   }
+  statement {
+    sid       = "Allow attachment of persistent resources"
+    effect    = "Allow"
+    resources = ["*"]
+
+    actions = [
+      "kms:CreateGrant",
+      "kms:ListGrants",
+      "kms:RevokeGrant",
+    ]
+
+    principals {
+      type        = "AWS"
+      identifiers = var.grant_roles
+    }
+
+    condition {
+      test     = "Bool"
+      variable = "kms:GrantIsForAWSResource"
+      values   = ["true"]
+    }
+    dynamic "condition" {
+      for_each = length(var.caller_accounts) > 0 ? [1] : []
+      content {
+        test     = "StringEquals"
+        variable = "kms:CallerAccount"
+
+        values = var.caller_accounts
+      }
+    }
+  }
 
   statement {
     sid    = "Key Administrator"
@@ -101,7 +152,6 @@ data "aws_iam_policy_document" "kms_key" {
     actions = [
       "kms:Create*",
       "kms:Describe*",
-      "kms:Decrypt",
       "kms:Enable*",
       "kms:List*",
       "kms:Put*",
@@ -116,10 +166,23 @@ data "aws_iam_policy_document" "kms_key" {
       "kms:CancelKeyDeletion",
       "kms:ReplicateKey",
     ]
-
     principals {
       type        = "AWS"
       identifiers = var.administrator_roles
+    }
+  }
+  dynamic "statement" {
+    for_each = var.admin_decrypt_permission ? [1] : []
+    content {
+      sid    = "AdminsCanDecrypt"
+      effect = "Allow"
+
+      resources = ["arn:aws:kms:*:${data.aws_caller_identity.current.account_id}:key/*"]
+      actions   = ["kms:Decrypt"]
+      principals {
+        type        = "AWS"
+        identifiers = var.administrator_roles
+      }
     }
   }
 }

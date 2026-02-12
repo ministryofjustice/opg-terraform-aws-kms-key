@@ -7,6 +7,10 @@ variable "alias" {
   description = "KMS Key Alias"
   type        = string
 }
+variable "description" {
+  description = "KMS Key Description"
+  type        = string
+}
 
 variable "custom_addition_permissions" {
   description = "JSON BLOB of Additional Custom Permisisons to be merged with the main key policy."
@@ -19,18 +23,17 @@ variable "decryption_roles" {
   type        = list(string)
 }
 
-variable "description" {
-  description = "KMS Key Description"
-  type        = string
-}
-
 variable "encryption_roles" {
   description = "List of Role ARNs allowed to use the KMS Key for Encryption"
   type        = list(string)
 }
 
+variable "grant_roles" {
+  description = "Principals allowed to create KMS grants for AWS resources using the KMS Key"
+  type        = list(string)
+}
 variable "usage_services" {
-  description = "List of AWS Service that the usage roles can use the KMS "
+  description = "List of AWS Service that allow the usage role to use the KMS key"
   default     = []
   type        = list(string)
 }
@@ -39,4 +42,32 @@ variable "deletion_window" {
   description = "KMS Key deletion window"
   type        = number
   default     = 7
+}
+
+variable "caller_accounts" {
+  description = "List of AWS Account IDs allowed to use the KMS Key via AWS Service"
+  type        = list(string)
+  default     = []
+}
+
+variable "primary_account_id" {
+  description = " Primary AWS Account ID for multi-region replica KMS key usage"
+  type        = string
+}
+
+variable "backup_account_id" {
+  description = " Backup AWS Account ID for cross-account backup KMS key usage"
+  type        = string
+}
+
+variable "admin_decrypt_permission" {
+  description = "Allow administrators to have permissions to use the KMS Key for Decryption"
+  type        = bool
+  default     = false
+}
+
+variable "replica_regions" {
+  description = "List of AWS Regions to create KMS Key replicas in"
+  type        = list(string)
+  default     = []
 }

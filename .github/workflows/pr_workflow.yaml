@@ -32,10 +32,13 @@ jobs:
     name: Bump Version
     runs-on: ubuntu-latest
     steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
       - name: "Generate semver tag and release"
-        id: semver_tag
-        uses: ministryofjustice/opg-github-actions/.github/actions/semver-tag@v3.1.7
-        #TODO check version
+        id: semver
+        uses: ministryofjustice/opg-github-actions/actions/semver@v4.3.10
         with:
           prerelease: ${{ github.ref != 'refs/heads/main' }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -45,20 +48,23 @@ jobs:
     name: "Terraform Validation"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - id: tf_version
+      - name: "Checkout code"
+        uses: actions/checkout@v6
+      - id: terraform_version
         name: "Get terraform version"
-        uses: "ministryofjustice/opg-github-actions/.github/actions/terraform-version@v3.1.7"
+        uses: "ministryofjustice/opg-github-actions/actions/terraform-version@v4.3.10"
         with:
-          terraform_directory: "./"
+          terraform_directory: "."
       - name: "Setup terraform [version: ${{ steps.tf_version.outputs.version }}]"
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: ${{ steps.tf_version.outputs.version }}
-      - uses: terraform-linters/setup-tflint@v4
-        name: Setup TFLint
+          terraform_version: ${{ steps.terraform_version.outputs.version }}
+      - name: Setup TFLint
+        uses:
+          - actions/checkout@v4
+          - terraform-linters/setup-tflint@v4
         with:
-          tflint_version: v${{ env.TFLINT_VERSION }}
+          terraform_version: ${{ inputs.terraform_version }}
       - name: Terraform fmt check
         run: |
           terraform fmt -diff -check
