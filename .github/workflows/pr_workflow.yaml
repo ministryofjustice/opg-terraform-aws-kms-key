@@ -60,8 +60,7 @@ jobs:
         with:
           terraform_version: ${{ steps.terraform_version.outputs.version }}
       - name: Setup TFLint
-        uses:
-          - terraform-linters/setup-tflint@v4
+        uses: terraform-linters/setup-tflint@v4
         with:
           terraform_version: ${{ inputs.terraform_version }}
       - name: Terraform fmt check
