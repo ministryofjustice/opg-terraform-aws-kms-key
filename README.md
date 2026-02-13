@@ -1,5 +1,10 @@
+
 # OPG-Terraform-AWS-KMS-key
 Standard OPG KMS key Module: Managed by opg-org-infra &amp; Terraform
+
+TODO - Consume a list of replica regions
+TODO - lint and validate example files
+TODO - Make terraform docs template
 
 ## Introduction
 This module creates and manages AWS KMS customer‑managed keys. It applies least‑privilege policies for admins, encryption, and decryption, and can mirror keys across eu‑west‑1 and eu‑west‑2 with matching aliases.
@@ -9,6 +14,7 @@ This module creates and manages AWS KMS customer‑managed keys. It applies leas
 - Allow‑listed services via `usage_services` (e.g. `backup.*.amazonaws.com`)
 - Safe lifecycle controls: description, deletion window
 
+<!-- BEGIN_TF_DOCS -->
 
 ### Example Usage: Cross Account Backup Key
 
@@ -68,3 +74,5 @@ module "aws_backup_cross_account_key" {
 |------|-------------|
 | eu_west_1 | Primary KMS key resource `aws_kms_key.eu_west_1` |
 | eu_west_2 | Replica KMS key resource `aws_kms_replica_key.eu_west_2` |
+
+<!-- END_TF_DOCS -->
