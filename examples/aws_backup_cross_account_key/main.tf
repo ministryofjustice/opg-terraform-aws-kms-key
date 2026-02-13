@@ -1,6 +1,6 @@
 # content: |-
 module "aws_backup_cross_account_key" {
-  source = "./modules/kms_key"
+  source = "git@github.com:ministryofjustice/terraform-aws-kms-key.git"
 
   description = "Encryption keys for Make an LPA backups copied into the backup account"
   alias       = "opg-lpa-${local.account_name}-aws-backup-key"

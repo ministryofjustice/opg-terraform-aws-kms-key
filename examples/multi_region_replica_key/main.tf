@@ -2,7 +2,7 @@
 
 # Primary app KMS key replicated to eu-west-2
 module "primary_app_kms" {
-  source = "./modules/kms_key"
+  source = "git@github.com:ministryofjustice/terraform-aws-kms-key.git"
 
   description = "Customer-managed KMS key for Example App; replicated to eu-west-2"
   alias       = "opg-example-app-kms"
@@ -27,7 +27,7 @@ module "primary_app_kms" {
 
 # Separate key for logs/backup use
 module "logs_backup_kms" {
-  source = "./modules/kms_key"
+  source = "git@github.com:ministryofjustice/terraform-aws-kms-key.git"
 
   description = "KMS key for logs and backups; replicated to eu-west-2"
   alias       = "opg-example-logs-backup-kms"

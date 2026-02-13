@@ -61,7 +61,6 @@ jobs:
           terraform_version: ${{ steps.terraform_version.outputs.version }}
       - name: Setup TFLint
         uses:
-          - actions/checkout@v4
           - terraform-linters/setup-tflint@v4
         with:
           terraform_version: ${{ inputs.terraform_version }}
