@@ -72,5 +72,5 @@ jobs:
           terraform validate
       - name: Lint Terraform
         id: tf_lint
-        run: tflint --recursive
+        run: tflint
         working-directory: .
