@@ -1,0 +1,12 @@
+content: |-
+  {{ .Header }}
+
+  ## Example Usage
+
+  ```hcl
+  {{ include "examples/aws_backup_cross_account_key/main.tf" }}
+  ```
+
+  {{ .Inputs }}
+
+  {{ .Outputs }}
