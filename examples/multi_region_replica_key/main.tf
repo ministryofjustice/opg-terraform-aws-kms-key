@@ -2,7 +2,7 @@
 
 # Primary app KMS key replicated to eu-west-2
 module "primary_app_kms" {
-  source = "git@github.com:ministryofjustice/terraform-aws-kms-key.git"
+  source = "git@github.com:ministryofjustice/terraform-aws-kms-key.git?ref=main"
 
   description = "Customer-managed KMS key for Example App; replicated to eu-west-2"
   alias       = "opg-example-app-kms"
@@ -50,4 +50,10 @@ module "logs_backup_kms" {
     "backup.*.amazonaws.com",
     "logs.*.amazonaws.com",
   ]
+}
+
+variable "replica_regions" {
+  description = "List of AWS Regions to create KMS Key replicas in"
+  type        = list(string)
+  default     = []
 }

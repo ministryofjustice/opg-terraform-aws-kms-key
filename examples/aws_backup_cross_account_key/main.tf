@@ -1,6 +1,6 @@
 # content: |-
 module "aws_backup_cross_account_key" {
-  source = "git@github.com:ministryofjustice/terraform-aws-kms-key.git"
+  source = "git@github.com:ministryofjustice/terraform-aws-kms-key.git?ref=main"
 
   description = "Encryption keys for Make an LPA backups copied into the backup account"
   alias       = "opg-lpa-${local.account_name}-aws-backup-key"
@@ -27,4 +27,14 @@ module "aws_backup_cross_account_key" {
     aws_iam_role.aurora_backup_role.arn,
   ]
   usage_services = ["backup.*.amazonaws.com"]
+}
+
+variable "primary_account_id" {
+  description = " Primary AWS Account ID for multi-region replica KMS key usage"
+  type        = string
+}
+
+variable "backup_account_id" {
+  description = " Backup AWS Account ID for cross-account backup KMS key usage"
+  type        = string
 }

@@ -50,24 +50,8 @@ variable "caller_accounts" {
   default     = []
 }
 
-variable "primary_account_id" {
-  description = " Primary AWS Account ID for multi-region replica KMS key usage"
-  type        = string
-}
-
-variable "backup_account_id" {
-  description = " Backup AWS Account ID for cross-account backup KMS key usage"
-  type        = string
-}
-
 variable "admin_decrypt_permission" {
   description = "Allow administrators to have permissions to use the KMS Key for Decryption"
   type        = bool
   default     = false
-}
-
-variable "replica_regions" {
-  description = "List of AWS Regions to create KMS Key replicas in"
-  type        = list(string)
-  default     = []
 }
