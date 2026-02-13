@@ -29,5 +29,5 @@ resource "aws_kms_alias" "kms_replica_alias" {
   region = each.key
 
   name          = each.value.alias
-  target_key_id = aws_kms_replica_key.replica[each.key].key_id
+  target_key_id = aws_kms_replica_key.kms_key_replica[each.key].key_id
 }
