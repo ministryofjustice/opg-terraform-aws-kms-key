@@ -26,7 +26,8 @@ resource "aws_kms_replica_key" "kms_key_replica" {
 resource "aws_kms_alias" "kms_replica_alias" {
   for_each = var.enable_replication ? var.replicas_to_create : {}
 
-  region        = each.key
+  region = each.key
+
   name          = each.value.alias
-  target_key_id = aws_kms_replica_key.kms_key_replica[each.key].key_id
+  target_key_id = aws_kms_replica_key.replica[each.key].key_id
 }

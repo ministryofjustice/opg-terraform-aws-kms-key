@@ -60,16 +60,12 @@ variable "primary_region" {
   description = "The AWS Region e.g. eu-west-1 where primary key is created"
   type        = string
 }
-variable "replica_region" {
-  description = "The AWS Region e.g. us-west-1 where replica key will be created"
-  type        = string
-}
-
 variable "enable_replication" {
   description = " Choose whether to create replica keys in other regions"
   type        = bool
   default     = false
 }
+
 variable "replicas_to_create" {
   description = "Map of KMS aliases from Primary region to create replica keys in Replica region"
   type = map(object({
