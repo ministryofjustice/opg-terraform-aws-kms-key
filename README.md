@@ -4,7 +4,6 @@ Standard OPG KMS key Module: Managed by opg-org-infra &amp; Terraform
 
 - TODO - Consume a list of replica regions
 - TODO - lint and validate example files
-- TODO - Make terraform docs template
 
 ## Introduction
 This module creates and manages AWS KMS customer‑managed keys. It applies least‑privilege policies for admins, encryption, and decryption, and can mirror keys across eu‑west‑1 and eu‑west‑2 with matching aliases.
@@ -12,13 +11,13 @@ This module creates and manages AWS KMS customer‑managed keys. It applies leas
 - Primary key in eu‑west‑1, optional replica in eu‑west‑2
 - Role‑based access: `administrator_roles`, `encryption_roles`, `decryption_roles`
 - Allow‑listed services via `usage_services` (e.g. `backup.*.amazonaws.com`)
-- Safe lifecycle controls: description, deletion window
+- Safe lifecycle controls: deletion window, key rotation
 
 <!-- BEGIN_TF_DOCS -->
 
 ### Example Usage: Cross Account Backup Key
 
-Module being used to enable cross account backups in AWS Backup Service for Make-a-Lasting-Power-of-Attonery.
+Module being used to enable cross account backups in AWS Backup Service for Make-a-Lasting-Power-of-Attorney.
 
 ```hcl
 module "aws_backup_cross_account_key" {
