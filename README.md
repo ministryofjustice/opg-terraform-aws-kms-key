@@ -85,7 +85,6 @@ variable "backup_account_id" {
 | Name | Description |
 |------|-------------|
 | <a name="output_all_key_arns"></a> [all\_key\_arns](#output\_all\_key\_arns) | List of all KMS key ARNs including primary and replicas |
-| <a name="output_all_key_arns_by_region"></a> [all\_key\_arns\_by\_region](#output\_all\_key\_arns\_by\_region) | Map of AWS regions to their corresponding KMS key ARNs |
 | <a name="output_eu_west_1"></a> [eu\_west\_1](#output\_eu\_west\_1) | Primary region  |
 | <a name="output_replica_key_arns"></a> [replica\_key\_arns](#output\_replica\_key\_arns) | List of replica KMS key ARNs |
 <!-- END_TF_DOCS -->
