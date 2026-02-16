@@ -2,8 +2,6 @@
 # OPG-Terraform-AWS-KMS-key
 Standard OPG KMS key Module: Managed by opg-org-infra &amp; Terraform
 
-- TODO - lint and validate example files
-
 
 ## Introduction
 This module creates and manages AWS KMS customer‑managed keys. It applies least‑privilege policies for admins, encryption, and decryption, and can mirror keys across multiple regions, allocating primary and replica regions according to your usage needs.
