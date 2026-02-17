@@ -19,7 +19,6 @@ Multi-region replication is optional and is disabled by default.
 ## Example Usage
 
 ```hcl
-# content: |-
 module "aws_backup_cross_account_key" {
   source = "git@github.com:ministryofjustice/terraform-aws-kms-key.git?ref=main"
 
