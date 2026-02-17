@@ -1,5 +1,5 @@
-output "primary_key_arn" {
-  value = aws_kms_key.eu_west_1
+output "primary_key" {
+  value = aws_kms_key.primary
 }
 
 output "replica_keys" {
