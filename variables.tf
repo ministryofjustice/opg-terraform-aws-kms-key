@@ -63,5 +63,5 @@ variable "primary_region" {
 
 variable "replicas_to_create" {
   description = "List of regions to create replica keys in"
-  type        = list[string]
+  type        = list(string)
 }
