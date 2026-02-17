@@ -55,3 +55,13 @@ variable "admin_decrypt_permission" {
   type        = bool
   default     = false
 }
+
+variable "primary_region" {
+  description = "The AWS Region e.g. eu-west-1 where primary key is created"
+  type        = string
+}
+
+variable "replicas_to_create" {
+  description = "List of regions to create replica keys in"
+  type        = list(string)
+}

@@ -24,7 +24,7 @@ module "aws_backup_cross_account_key" {
     aws_iam_role.aurora_backup_role.arn,
   ]
   grant_roles = [
-    aws_iam_role.aurora_backup_role.arn,
+    var.grant_roles
   ]
   usage_services = ["backup.*.amazonaws.com"]
 }

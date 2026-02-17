@@ -1,7 +1,8 @@
-output "eu_west_1" {
-  value = aws_kms_key.eu_west_1
+output "primary_key" {
+  value = aws_kms_key.primary
 }
 
-output "eu_west_2" {
-  value = aws_kms_replica_key.eu_west_2
+output "replica_keys" {
+  description = "List of replica KMS keys created in other regions"
+  value       = values(aws_kms_replica_key.replica)[*]
 }
