@@ -8,7 +8,7 @@ This module creates and manages AWS KMS customer‑managed keys.
 
 It applies least‑privilege policies for admins, encryption, and decryption, and can mirror keys across multiple regions, allocating primary and replica regions according to your usage needs.
 
-- Role‑based access: `administrator_roles`, `grant_roles``encryption_roles`, `decryption_roles`
+- Role‑based access: `administrator_roles`, `grant_roles`, `encryption_roles`, `decryption_roles`
 - Allow‑listed services via `usage_services` (e.g. `backup.*.amazonaws.com`)
 - Allow‑listed caller accounts via `caller_accounts` (e.g. `backup_account_id`)
 - Safe lifecycle controls: deletion window, key rotation
@@ -21,11 +21,6 @@ Practical examples and instructions on how to consume the module can be found un
 [examples/aws_backup_cross_account_key](examples/aws_backup_cross_account_key)
 - Multi‑Region Replica:
 [examples/multi_region_replica_key](examples/multi_region_replica_key)
-
-## Getting Started
-- Review the Example Usage below for core inputs.
-- Choose an example closest to your scenario and follow its README.
-- Provide your role ARNs (`administrator_roles`, `encryption_roles`, `decryption_roles`, `grant_roles`) and any `usage_services` required.
 
 <!-- BEGIN_TF_DOCS -->
 
@@ -88,7 +83,7 @@ variable "backup_account_id" {
 | <a name="input_encryption_roles"></a> [encryption\_roles](#input\_encryption\_roles) | List of Role ARNs allowed to use the KMS Key for Encryption | `list(string)` | n/a | yes |
 | <a name="input_grant_roles"></a> [grant\_roles](#input\_grant\_roles) | Principals allowed to create KMS grants for AWS resources using the KMS Key | `list(string)` | n/a | yes |
 | <a name="input_primary_region"></a> [primary\_region](#input\_primary\_region) | The AWS Region e.g. eu-west-1 where primary key is created | `string` | n/a | yes |
-| <a name="input_replicas_to_create"></a> [replicas\_to\_create](#input\_replicas\_to\_create) | Map of KMS aliases from Primary region to create replica keys in Replica region | <pre>map(object({<br/>    alias  = string # Alias for the KMS Key in the primary region<br/>    policy = string # Policy for the KMS Key in the primary region<br/>  }))</pre> | `{}` | no |
+| <a name="input_replicas_to_create"></a> [replicas\_to\_create](#input\_replicas\_to\_create) | List of regions to create replica keys in | `list(string)` | n/a | yes |
 | <a name="input_usage_services"></a> [usage\_services](#input\_usage\_services) | List of AWS Service that allow the usage role to use the KMS key | `list(string)` | `[]` | no |
 
 ## Outputs
