@@ -4,14 +4,28 @@ Standard OPG KMS key Module: Managed by opg-org-infra &amp; Terraform
 
 
 ## Introduction
-This module creates and manages AWS KMS customer‑managed keys. It applies least‑privilege policies for admins, encryption, and decryption, and can mirror keys across multiple regions, allocating primary and replica regions according to your usage needs.
+This module creates and manages AWS KMS customer‑managed keys.
 
-Multi-region replication is optional and is disabled by default.
+It applies least‑privilege policies for admins, encryption, and decryption, and can mirror keys across multiple regions, allocating primary and replica regions according to your usage needs.
 
-- Role‑based access: `administrator_roles`, `encryption_roles`, `decryption_roles`
+- Role‑based access: `administrator_roles`, `grant_roles``encryption_roles`, `decryption_roles`
 - Allow‑listed services via `usage_services` (e.g. `backup.*.amazonaws.com`)
+- Allow‑listed caller accounts via `caller_accounts` (e.g. `backup_account_id`)
 - Safe lifecycle controls: deletion window, key rotation
 
+
+## Examples
+
+Practical examples and instructions on how to consume the module can be found under [examples](examples):
+- AWS Backup Cross‑Account:
+[examples/aws_backup_cross_account_key](examples/aws_backup_cross_account_key)
+- Multi‑Region Replica:
+[examples/multi_region_replica_key](examples/multi_region_replica_key)
+
+## Getting Started
+- Review the Example Usage below for core inputs.
+- Choose an example closest to your scenario and follow its README.
+- Provide your role ARNs (`administrator_roles`, `encryption_roles`, `decryption_roles`, `grant_roles`) and any `usage_services` required.
 
 <!-- BEGIN_TF_DOCS -->
 
@@ -71,8 +85,6 @@ variable "backup_account_id" {
 | <a name="input_custom_addition_permissions"></a> [custom\_addition\_permissions](#input\_custom\_addition\_permissions) | JSON BLOB of Additional Custom Permisisons to be merged with the main key policy. | `string` | `""` | no |
 | <a name="input_decryption_roles"></a> [decryption\_roles](#input\_decryption\_roles) | List of Role ARNs allowed to use the KMS Key for Decryption | `list(string)` | n/a | yes |
 | <a name="input_deletion_window"></a> [deletion\_window](#input\_deletion\_window) | KMS Key deletion window | `number` | `7` | no |
-| <a name="input_description"></a> [description](#input\_description) | KMS Key Description | `string` | n/a | yes |
-| <a name="input_enable_replication"></a> [enable\_replication](#input\_enable\_replication) | Choose whether to create replica keys in other regions | `bool` | `false` | no |
 | <a name="input_encryption_roles"></a> [encryption\_roles](#input\_encryption\_roles) | List of Role ARNs allowed to use the KMS Key for Encryption | `list(string)` | n/a | yes |
 | <a name="input_grant_roles"></a> [grant\_roles](#input\_grant\_roles) | Principals allowed to create KMS grants for AWS resources using the KMS Key | `list(string)` | n/a | yes |
 | <a name="input_primary_region"></a> [primary\_region](#input\_primary\_region) | The AWS Region e.g. eu-west-1 where primary key is created | `string` | n/a | yes |
@@ -83,7 +95,7 @@ variable "backup_account_id" {
 
 | Name | Description |
 |------|-------------|
-| <a name="output_all_key_arns"></a> [all\_key\_arns](#output\_all\_key\_arns) | List of all KMS key ARNs including primary and replicas |
-| <a name="output_eu_west_1"></a> [eu\_west\_1](#output\_eu\_west\_1) | Primary region  |
-| <a name="output_replica_key_arns"></a> [replica\_key\_arns](#output\_replica\_key\_arns) | List of replica KMS key ARNs |
+| <a name="output_primary_key_arn"></a> [primary_key_arn](#output_primary_key_arn) | n/a |
+| <a name="output_replica_keys"></a> [replica_keys](#output_replica_keys) | List of replica KMS keys created in other regions |
+
 <!-- END_TF_DOCS -->
