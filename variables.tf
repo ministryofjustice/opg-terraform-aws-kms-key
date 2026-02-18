@@ -56,12 +56,6 @@ variable "admin_decrypt_permission" {
   default     = false
 }
 
-variable "principal_role_name_like_patterns" {
-  description = "List of IAM role name wildcard patterns to allow via aws:PrincipalArn (e.g., ecs-*-task-role, *ecs-task-role*)"
-  type        = list(string)
-  default     = []
-}
-
 variable "primary_region" {
   description = "The AWS Region e.g. eu-west-1 where primary key is created"
   type        = string
