@@ -34,6 +34,25 @@ data "aws_iam_policy_document" "kms_key" {
       type        = "AWS"
       identifiers = var.encryption_roles
     }
+
+    dynamic "condition" {
+      for_each = length(var.usage_services) > 0 ? [1] : []
+      content {
+        test     = "StringLike"
+        variable = "kms:ViaService"
+
+        values = var.usage_services
+      }
+    }
+    dynamic "condition" {
+      for_each = length(var.caller_accounts) > 0 ? [1] : []
+      content {
+        test     = "StringEquals"
+        variable = "kms:CallerAccount"
+
+        values = var.caller_accounts
+      }
+    }
     dynamic "condition" {
       for_each = length(var.encryption_roles) > 0 ? [1] : []
       content {
@@ -41,24 +60,6 @@ data "aws_iam_policy_document" "kms_key" {
         variable = "aws:PrincipalArn"
         values   = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/*ecs-api-task-role*"
       }
-    }
-  }
-  dynamic "condition" {
-    for_each = length(var.usage_services) > 0 ? [1] : []
-    content {
-      test     = "StringLike"
-      variable = "kms:ViaService"
-
-      values = var.usage_services
-    }
-  }
-  dynamic "condition" {
-    for_each = length(var.caller_accounts) > 0 ? [1] : []
-    content {
-      test     = "StringEquals"
-      variable = "kms:CallerAccount"
-
-      values = var.caller_accounts
     }
   }
   statement {
@@ -76,15 +77,6 @@ data "aws_iam_policy_document" "kms_key" {
       type        = "AWS"
       identifiers = var.decryption_roles
     }
-
-    dynamic "condition" {
-      for_each = length(var.decryption_roles) > 0 ? [1] : []
-      content {
-        test     = "StringLike"
-        variable = "aws:PrincipalArn"
-        values   = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/*ecs-api-task-role*"
-      }
-    }
     dynamic "condition" {
       for_each = length(var.usage_services) > 0 ? [1] : []
       content {
@@ -101,6 +93,14 @@ data "aws_iam_policy_document" "kms_key" {
         variable = "kms:CallerAccount"
 
         values = var.caller_accounts
+      }
+    }
+    dynamic "condition" {
+      for_each = length(var.decryption_roles) > 0 ? [1] : []
+      content {
+        test     = "StringLike"
+        variable = "aws:PrincipalArn"
+        values   = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/*ecs-api-task-role*"
       }
     }
   }
