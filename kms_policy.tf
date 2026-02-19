@@ -54,13 +54,11 @@ data "aws_iam_policy_document" "kms_key" {
       }
     }
     dynamic "condition" {
-      for_each = length(var.encryption_roles) > 0 ? [1] : []
+      for_each = length(var.encryption_role_patterns) > 0 ? [1] : []
       content {
         test     = "StringLike"
         variable = "aws:PrincipalArn"
-        values = [
-          "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/*ecs-api-task-role*",
-        ]
+        values   = var.encryption_role_patterns
       }
     }
   }
@@ -98,13 +96,11 @@ data "aws_iam_policy_document" "kms_key" {
       }
     }
     dynamic "condition" {
-      for_each = length(var.decryption_roles) > 0 ? [1] : []
+      for_each = length(var.encryption_role_patterns) > 0 ? [1] : []
       content {
         test     = "StringLike"
         variable = "aws:PrincipalArn"
-        values = [
-          "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/*ecs-api-task-role*",
-        ]
+        values   = var.encryption_role_patterns
       }
     }
   }

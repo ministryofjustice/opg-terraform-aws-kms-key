@@ -30,6 +30,7 @@ variable "encryption_roles" {
 
 variable "grant_roles" {
   description = "Principals allowed to create KMS grants for AWS resources using the KMS Key"
+  default     = []
   type        = list(string)
 }
 variable "usage_services" {
@@ -64,4 +65,10 @@ variable "primary_region" {
 variable "replicas_to_create" {
   description = "List of regions to create replica keys in"
   type        = list(string)
+}
+
+variable "encryption_role_patterns" {
+  description = "List of patterns to match Role ARNs allowed to use the KMS Key for Encryption. Example pattern: ecs-api-task-role"
+  type        = list(string)
+  default     = []
 }
