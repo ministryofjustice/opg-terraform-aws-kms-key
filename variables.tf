@@ -74,7 +74,7 @@ variable "encryption_role_patterns" {
 }
 
 variable "decryption_role_patterns" {
-  description = "List of patterns to match Role ARNs allowed to use the KMS Key for Encryption. Example pattern: ecs-api-task-role"
+  description = "List of patterns to match Role ARNs allowed to use the KMS Key for Decryption. Example pattern: ecs-api-task-role"
   type        = list(string)
   default     = []
 }
