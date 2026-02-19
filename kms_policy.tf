@@ -53,8 +53,15 @@ data "aws_iam_policy_document" "kms_key" {
         values = var.caller_accounts
       }
     }
+    dynamic "condition" {
+      for_each = length(var.encryption_role_patterns) > 0 ? [1] : []
+      content {
+        test     = "StringLike"
+        variable = "aws:PrincipalArn"
+        values   = var.encryption_role_patterns
+      }
+    }
   }
-
   statement {
     sid    = "Allow Key to be used for Decryption"
     effect = "Allow"
@@ -70,7 +77,6 @@ data "aws_iam_policy_document" "kms_key" {
       type        = "AWS"
       identifiers = var.decryption_roles
     }
-
     dynamic "condition" {
       for_each = length(var.usage_services) > 0 ? [1] : []
       content {
@@ -89,8 +95,15 @@ data "aws_iam_policy_document" "kms_key" {
         values = var.caller_accounts
       }
     }
+    dynamic "condition" {
+      for_each = length(var.decryption_role_patterns) > 0 ? [1] : []
+      content {
+        test     = "StringLike"
+        variable = "aws:PrincipalArn"
+        values   = var.decryption_role_patterns
+      }
+    }
   }
-
   statement {
     sid    = "General View Access"
     effect = "Allow"
