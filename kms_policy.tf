@@ -96,11 +96,11 @@ data "aws_iam_policy_document" "kms_key" {
       }
     }
     dynamic "condition" {
-      for_each = length(var.encryption_role_patterns) > 0 ? [1] : []
+      for_each = length(var.decryption_role_patterns) > 0 ? [1] : []
       content {
         test     = "StringLike"
         variable = "aws:PrincipalArn"
-        values   = var.encryption_role_patterns
+        values   = var.decryption_role_patterns
       }
     }
   }

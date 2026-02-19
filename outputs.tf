@@ -1,5 +1,6 @@
 output "primary_key" {
-  value = aws_kms_key.primary
+  description = "ARN of the primary region KMS key"
+  value       = aws_kms_key.primary
 }
 
 output "replica_keys" {
