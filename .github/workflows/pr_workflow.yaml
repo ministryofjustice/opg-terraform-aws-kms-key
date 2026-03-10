@@ -62,7 +62,7 @@ jobs:
       - name: Setup TFLint
         uses: terraform-linters/setup-tflint@v4
         with:
-          terraform_version: ${{ inputs.terraform_version }}
+          tflint_version: ${{ env.TFLINT_VERSION }}
       - name: Terraform fmt check
         run: |
           terraform fmt -diff -check
