@@ -16,7 +16,7 @@
         "minor",
         "patch"
       ],
-      "minimumReleaseAge": "5 days",
+      "minimumReleaseAge": "7 days",
       "addLabels": [
         "minor-and-patch"
       ],
@@ -29,7 +29,7 @@
       "matchUpdateTypes": [
         "major"
       ],
-      "minimumReleaseAge": "5 days",
+      "minimumReleaseAge": "7 days",
       "addLabels": [
         "major"
       ],
