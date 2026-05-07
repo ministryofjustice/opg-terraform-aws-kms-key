@@ -13,19 +13,9 @@ output "replica_keys" {
   value       = values(aws_kms_replica_key.replica)[*]
 }
 
-output "replica_keys_set" {
+output "replica_keys_object" {
   description = "All KMS replica keys created in other regions with the attributes of aws_kms_replica_key"
-  value       = toset(aws_kms_replica_key.replica[*])
-}
-
-output "replica_keys_setoutside" {
-  description = "All KMS replica keys created in other regions with the attributes of aws_kms_replica_key"
-  value       = toset(aws_kms_replica_key.replica)[*]
-}
-
-output "replica_key_for" {
-  description = "All KMS replica keys created in other regions with the attributes of aws_kms_replica_key"
-  value       = { for region, replica in aws_kms_replica_key.replica[*] : region => replica }
+  value       = aws_kms_replica_key.replica[*]
 }
 
 output "replica_key_map" {
