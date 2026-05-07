@@ -5,5 +5,5 @@ output "primary_key" {
 
 output "replica_keys" {
   description = "All KMS replica keys created in other regions with the attributes of aws_kms_replica_key"
-  value       = aws_kms_replica_key.replica[*]
+  value       = toset(aws_kms_replica_key.replica[*])
 }
