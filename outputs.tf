@@ -10,7 +10,7 @@ output "key_alias" {
 
 output "replica_keys" {
   description = "All KMS replica keys created in other regions with the attributes of aws_kms_replica_key"
-  value       = values(aws_kms_replica_key.replica)[*]
+  value       = aws_kms_replica_key.replica
 }
 
 output "replica_keys_object" {
