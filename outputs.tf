@@ -1,9 +1,9 @@
 output "primary_key" {
-  description = "ARN of the primary region KMS key"
+  description = "The primary region KMS key with the attributes of aws_kms_key"
   value       = aws_kms_key.primary
 }
 
 output "replica_keys" {
-  description = "Set of replica KMS keys created in other regions"
+  description = "All KMS replica keys created in other regions with the attributes of aws_kms_replica_key"
   value       = aws_kms_replica_key.replica[*]
 }
