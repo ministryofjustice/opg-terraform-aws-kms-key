@@ -3,12 +3,12 @@ output "primary_key" {
   value       = aws_kms_key.primary
 }
 
-output "key_alias" {
-  description = "The KMS key alias for the primary and all replica keys"
-  value       = "alias/${var.alias}"
+output "key_alias_name" {
+  description = "The KMS key alia name for the primary and all replica keys"
+  value       = aws_kms_alias.primary.name
 }
 
 output "replica_keys" {
-  description = "All KMS replica keys created in other regions with the attributes of aws_kms_replica_key"
+  description = "KMS replica keys created for each region in replicas_to_create with the attributes of aws_kms_replica_key"
   value       = aws_kms_replica_key.replica
 }

@@ -1,9 +1,10 @@
 
 # OPG-Terraform-AWS-KMS-key
+
 Standard OPG KMS key Module: Managed by opg-org-infra &amp; Terraform
 
-
 ## Introduction
+
 This module creates and manages AWS KMS customer‑managed keys.
 
 It applies least‑privilege policies for admins, encryption, and decryption, and can mirror keys across multiple regions, allocating primary and replica regions according to your usage needs.
@@ -20,26 +21,30 @@ It applies least‑privilege policies for admins, encryption, and decryption, an
 ## Examples
 
 Practical examples and instructions on how to consume the module can be found under [examples](examples):
+
 - AWS Backup Cross‑Account:
 [examples/aws_backup_cross_account_key](examples/aws_backup_cross_account_key)
 - Multi‑Region Replica:
 [examples/multi_region_replica_key](examples/multi_region_replica_key)
+- Replicated Secrets Manager Secret:
+[examples/replicated_secret](examples/replicated_secret)
 
 <!-- BEGIN_TF_DOCS -->
-
 
 ## Example Usage
 
 ```hcl
 # content: |-
 module "aws_backup_cross_account_key" {
-  source = "git@github.com:ministryofjustice/terraform-aws-kms-key.git?ref=main"
+  source         = "git@github.com:ministryofjustice/terraform-aws-kms-key.git?ref=main"
+  alias          = "opg-lpa-${local.account_name}-aws-backup-key"
+  description    = "Encryption keys for Make an LPA backups copied into the backup account"
+  primary_region = "eu-west-1"
 
-  description = "Encryption keys for Make an LPA backups copied into the backup account"
-  alias       = "opg-lpa-${local.account_name}-aws-backup-key"
-  providers = {
-    aws = aws.backup
-  }
+  replicas_to_create = [
+    "eu-west-2"
+  ]
+
   caller_accounts = [
     var.primary_account_id,
     var.backup_account_id
@@ -60,6 +65,9 @@ module "aws_backup_cross_account_key" {
     var.grant_roles
   ]
   usage_services = ["backup.*.amazonaws.com"]
+  providers = {
+    aws = aws.backup
+  }
 }
 
 variable "primary_account_id" {
@@ -70,6 +78,11 @@ variable "primary_account_id" {
 variable "backup_account_id" {
   description = " Backup AWS Account ID for cross-account backup KMS key usage"
   type        = string
+}
+
+locals {
+  primary_key_arn = module.aws_backup_cross_account_key.primary_key.arn
+  replica_key_arn = module.aws_backup_cross_account_key.replica_keys.eu-west-2.arn
 }
 ```
 
@@ -96,6 +109,7 @@ variable "backup_account_id" {
 
 | Name | Description |
 |------|-------------|
-| <a name="output_primary_key"></a> [primary\_key](#output\_primary\_key) | ARN of the primary region KMS key |
-| <a name="output_replica_keys"></a> [replica\_keys](#output\_replica\_keys) | List of replica KMS keys created in other regions |
+| <a name="output_primary_key"></a> [primary\_key](#output\_primary\_key) | The primary region KMS key with the attributes of aws_kms_key |
+| <a name="output_key_alias"></a> [key\_alias](#output\_key\_alias) | The KMS key alias for the primary and all replica keys |
+| <a name="output_replica_keys"></a> [replica\_keys](#output\_replica\_keys) | KMS replica keys created for each region in replicas_to_create with the attributes of aws_kms_replica_key |
 <!-- END_TF_DOCS -->
