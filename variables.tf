@@ -78,3 +78,13 @@ variable "decryption_role_patterns" {
   type        = list(string)
   default     = []
 }
+
+variable "custom_conditions" {
+  description = "Optional additional KMS policy conditions for teams to customise their key usage and grant statements."
+  type = list(object({
+    test     = string
+    variable = string
+    values   = list(string)
+  }))
+  default = []
+}

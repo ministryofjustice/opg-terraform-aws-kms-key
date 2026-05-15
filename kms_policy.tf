@@ -61,6 +61,14 @@ data "aws_iam_policy_document" "kms_key" {
         values   = var.encryption_role_patterns
       }
     }
+    dynamic "condition" {
+      for_each = var.custom_conditions
+      content {
+        test     = condition.value.test
+        variable = condition.value.variable
+        values   = condition.value.values
+      }
+    }
   }
   statement {
     sid    = "Allow Key to be used for Decryption"
@@ -101,6 +109,14 @@ data "aws_iam_policy_document" "kms_key" {
         test     = "StringLike"
         variable = "aws:PrincipalArn"
         values   = var.decryption_role_patterns
+      }
+    }
+    dynamic "condition" {
+      for_each = var.custom_conditions
+      content {
+        test     = condition.value.test
+        variable = condition.value.variable
+        values   = condition.value.values
       }
     }
   }
@@ -154,6 +170,14 @@ data "aws_iam_policy_document" "kms_key" {
         values = var.caller_accounts
       }
     }
+    dynamic "condition" {
+      for_each = var.custom_conditions
+      content {
+        test     = condition.value.test
+        variable = condition.value.variable
+        values   = condition.value.values
+      }
+    }
   }
 
   statement {
@@ -198,4 +222,5 @@ data "aws_iam_policy_document" "kms_key" {
       }
     }
   }
+
 }
