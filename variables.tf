@@ -75,7 +75,7 @@ variable "decryption_role_patterns" {
 
 # custom policy variable
 variable "custom_policy_document" {
-  description = "Optional IAM policy documents that users can provide to be merged with module policy via kms_key_custom_policies data source"
+  description = "Optional IAM policy document that users can provide to be merged with module policy via kms_key_custom_policies data source"
   type        = list(string)
   default     = []
 }
