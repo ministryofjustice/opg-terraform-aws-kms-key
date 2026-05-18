@@ -3,6 +3,6 @@
 data "aws_iam_policy_document" "kms_key_custom_policies" {
   source_policy_documents = concat(
     [data.aws_iam_policy_document.kms_key_module_policies.json],
-    var.custom_policy_document != null ? [var.custom_policy_document] : []
+    var.custom_policy_document,
   )
 }

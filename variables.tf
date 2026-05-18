@@ -1,10 +1,5 @@
-variable "primary_region" {
-  description = "The AWS Region e.g. eu-west-1 where primary key is created"
-  type        = string
-}
-
-variable "replicas_to_create" {
-  description = "List of regions to create replica keys in"
+variable "administrator_roles" {
+  description = "List of Role ARNs allowed to administer the KMS Key"
   type        = list(string)
 }
 
@@ -17,24 +12,11 @@ variable "description" {
   type        = string
 }
 
-variable "usage_services" {
-  description = "List of AWS Service that allow the usage role to use the KMS key"
-  default     = []
-  type        = list(string)
+variable "custom_addition_permissions" {
+  description = "JSON BLOB of Additional Custom Permisisons to be merged with the main key policy."
+  type        = string
+  default     = ""
 }
-
-variable "deletion_window" {
-  description = "KMS Key deletion window"
-  type        = number
-  default     = 7
-}
-
-# policy roles
-variable "administrator_roles" {
-  description = "List of Role ARNs allowed to administer the KMS Key"
-  type        = list(string)
-}
-
 
 variable "decryption_roles" {
   description = "List of Role ARNs allowed to use the KMS Key for Decryption"
@@ -51,6 +33,17 @@ variable "grant_roles" {
   default     = []
   type        = list(string)
 }
+variable "usage_services" {
+  description = "List of AWS Service that allow the usage role to use the KMS key"
+  default     = []
+  type        = list(string)
+}
+
+variable "deletion_window" {
+  description = "KMS Key deletion window"
+  type        = number
+  default     = 7
+}
 
 variable "caller_accounts" {
   description = "List of AWS Account IDs allowed to use the KMS Key via AWS Service"
@@ -62,6 +55,16 @@ variable "admin_decrypt_permission" {
   description = "Allow administrators to have permissions to use the KMS Key for Decryption"
   type        = bool
   default     = false
+}
+
+variable "primary_region" {
+  description = "The AWS Region e.g. eu-west-1 where primary key is created"
+  type        = string
+}
+
+variable "replicas_to_create" {
+  description = "List of regions to create replica keys in"
+  type        = list(string)
 }
 
 variable "encryption_role_patterns" {
@@ -76,9 +79,9 @@ variable "decryption_role_patterns" {
   default     = []
 }
 
-# custom policy documents and permissions
+# custom policy variable
 variable "custom_policy_document" {
-  description = "Additional IAM policy documents that users can provide to be merged with module policy via kms_key_custom_policies data source"
+  description = "Optional IAM policy documents that users can provide to be merged with module policy via kms_key_custom_policies data source"
   type        = list(string)
   default     = []
 }
