@@ -1,4 +1,13 @@
-data "aws_iam_policy_document" "kms_key_module_policies" {
+# # Merge the module's defined key policies with any local custom key policies provided by the user.
+# Set to default if no custom policies are provided.
+data "aws_iam_policy_document" "combined_kms_key_policies" {
+  source_policy_documents = concat(
+    [data.aws_iam_policy_document.kms_key_module_policy.json],
+    var.additional_policy_documents,
+  )
+}
+
+data "aws_iam_policy_document" "kms_key_module_policy" {
   statement {
     sid    = "Enable Root KMS Permissions"
     effect = "Allow"
