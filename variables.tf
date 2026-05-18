@@ -12,12 +12,6 @@ variable "description" {
   type        = string
 }
 
-variable "custom_addition_permissions" {
-  description = "JSON BLOB of Additional Custom Permisisons to be merged with the main key policy."
-  type        = string
-  default     = ""
-}
-
 variable "decryption_roles" {
   description = "List of Role ARNs allowed to use the KMS Key for Decryption"
   type        = list(string)
