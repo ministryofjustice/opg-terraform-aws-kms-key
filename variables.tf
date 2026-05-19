@@ -76,6 +76,6 @@ variable "decryption_role_patterns" {
 # custom policy variable
 variable "additional_policy_documents" {
   description = "Optional additional KMS policies that can be merged with base module policies by using 'source_policy_documents' attribute"
-  type        = list(string)
-  default     = []
+  type        = string
+  default     = ""
 }
