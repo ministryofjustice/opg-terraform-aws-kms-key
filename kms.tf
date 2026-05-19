@@ -2,7 +2,7 @@ resource "aws_kms_key" "primary" {
   description             = var.description
   deletion_window_in_days = var.deletion_window
   enable_key_rotation     = true
-  policy                  = data.aws_iam_policy_document.kms_key.json
+  policy                  = data.aws_iam_policy_document.combined_kms_key_policies.json
   multi_region            = true
   region                  = var.primary_region
 }
@@ -18,7 +18,7 @@ resource "aws_kms_replica_key" "replica" {
   primary_key_arn         = aws_kms_key.primary.arn
   description             = "Multi-Region replica key for ${each.value} region"
   deletion_window_in_days = var.deletion_window
-  policy                  = data.aws_iam_policy_document.kms_key.json
+  policy                  = data.aws_iam_policy_document.combined_kms_key_policies.json
 }
 
 resource "aws_kms_alias" "replica_alias" {

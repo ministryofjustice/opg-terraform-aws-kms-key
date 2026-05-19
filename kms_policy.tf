@@ -1,5 +1,13 @@
-data "aws_iam_policy_document" "kms_key" {
-  override_policy_documents = var.custom_addition_permissions != "" ? [var.custom_addition_permissions] : []
+# # Merge the module's defined key policies with any local custom key policies provided by the user.
+# Set to default if no custom policies are provided.
+data "aws_iam_policy_document" "combined_kms_key_policies" {
+  source_policy_documents = concat(
+    [data.aws_iam_policy_document.kms_key_module_policy.json],
+    var.additional_policy_documents != "" ? [var.additional_policy_documents] : [],
+  )
+}
+
+data "aws_iam_policy_document" "kms_key_module_policy" {
   statement {
     sid    = "Enable Root KMS Permissions"
     effect = "Allow"
@@ -14,7 +22,6 @@ data "aws_iam_policy_document" "kms_key" {
       "*",
     ]
   }
-
   statement {
     sid    = "Allow Key to be used for Encryption"
     effect = "Allow"
@@ -198,4 +205,5 @@ data "aws_iam_policy_document" "kms_key" {
       }
     }
   }
+
 }

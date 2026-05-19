@@ -12,12 +12,6 @@ variable "description" {
   type        = string
 }
 
-variable "custom_addition_permissions" {
-  description = "JSON BLOB of Additional Custom Permisisons to be merged with the main key policy."
-  type        = string
-  default     = ""
-}
-
 variable "decryption_roles" {
   description = "List of Role ARNs allowed to use the KMS Key for Decryption"
   type        = list(string)
@@ -77,4 +71,11 @@ variable "decryption_role_patterns" {
   description = "List of patterns to match Role ARNs allowed to use the KMS Key for Decryption. Example pattern: ecs-api-task-role"
   type        = list(string)
   default     = []
+}
+
+# custom policy variable
+variable "additional_policy_documents" {
+  description = "Optional additional KMS policies that can be merged with base module policies by using 'source_policy_documents' attribute"
+  type        = string
+  default     = ""
 }
