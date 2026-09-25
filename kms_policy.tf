@@ -131,34 +131,38 @@ data "aws_iam_policy_document" "kms_key_module_policy" {
       ]
     }
   }
-  statement {
-    sid       = "Allow attachment of persistent resources"
-    effect    = "Allow"
-    resources = ["*"]
 
-    actions = [
-      "kms:CreateGrant",
-      "kms:ListGrants",
-      "kms:RevokeGrant",
-    ]
+  dynamic "statement" {
+    for_each = length(var.grant_roles) > 0 ? [1] : []
+    content {
+      sid       = "AllowGrants"
+      effect    = "Allow"
+      resources = ["*"]
 
-    principals {
-      type        = "AWS"
-      identifiers = var.grant_roles
-    }
+      actions = [
+        "kms:CreateGrant",
+        "kms:ListGrants",
+        "kms:RevokeGrant",
+      ]
 
-    condition {
-      test     = "Bool"
-      variable = "kms:GrantIsForAWSResource"
-      values   = ["true"]
-    }
-    dynamic "condition" {
-      for_each = length(var.caller_accounts) > 0 ? [1] : []
-      content {
-        test     = "StringEquals"
-        variable = "kms:CallerAccount"
+      principals {
+        type        = "AWS"
+        identifiers = var.grant_roles
+      }
 
-        values = var.caller_accounts
+      condition {
+        test     = "Bool"
+        variable = "kms:GrantIsForAWSResource"
+        values   = ["true"]
+      }
+      dynamic "condition" {
+        for_each = length(var.caller_accounts) > 0 ? [1] : []
+        content {
+          test     = "StringEquals"
+          variable = "kms:CallerAccount"
+
+          values = var.caller_accounts
+        }
       }
     }
   }

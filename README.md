@@ -8,7 +8,6 @@ This module creates and manages AWS KMS customer‑managed keys.
 
 It applies least‑privilege policies for admins, encryption, and decryption, and can mirror keys across multiple regions, allocating primary and replica regions according to your usage needs.
 
-<!-- BEGIN_TF_DOCS -->
 
 - Role‑based access: `administrator_roles`, `grant_roles`, `encryption_roles`, `decryption_roles`
 - Allow‑listed services via `usage_services` (e.g. `backup.*.amazonaws.com`)
@@ -41,8 +40,6 @@ Practical examples and instructions on how to consume the module can be found un
   [examples/multi_region_replica_key](examples/multi_region_replica_key)
 - Replicated Secrets Manager Secret:
   [examples/replicated_secret](examples/replicated_secret)
-
-<!-- BEGIN_TF_DOCS -->
 
 ## Example Usage
 
@@ -99,6 +96,7 @@ locals {
 }
 ```
 
+<!-- BEGIN_TF_DOCS -->
 ## Inputs
 
 | Name                                                                                                               | Description                                                                                                                                                                                                                              | Type           | Default | Required |
